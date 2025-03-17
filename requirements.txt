@@ -9,5 +9,5 @@ matplotlib
 seaborn
 streamlit
 fastapi
-Flask
+flask 
 gunicorn
