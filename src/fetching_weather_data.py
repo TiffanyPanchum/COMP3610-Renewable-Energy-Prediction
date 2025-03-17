@@ -10,9 +10,9 @@ BASE_URL = "https://meteostat.p.rapidapi.com/point/monthly"
 
 # List of countries with their latitude, longitude, and altitude (you can expand this list)
 countries = [
-    {"name": "Germany", "lat": 52.5244, "lon": 13.4105, "alt": 43},  # Example: Berlin
-    {"name": "United States", "lat": 40.7128, "lon": -74.0060, "alt": 10},  # Example: New York
-    {"name": "Brazil", "lat": -15.7801, "lon": -47.9292, "alt": 1172},  # Example: Brasília
+    {"name": "Italy", "lat": 41.9028, "lon": 12.4964, "alt": 21},  # Rome
+    {"name": "France", "lat": 48.8566, "lon": 2.3522, "alt": 35},  # Paris
+    {"name": "Spain", "lat": 40.4168, "lon": -3.7038, "alt": 667},  # Madrid
     # Add more countries here with their latitudes, longitudes, and altitudes
 ]
 
