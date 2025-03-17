@@ -8,5 +8,6 @@ transformers
 matplotlib
 seaborn
 streamlit
-flask
 fastapi
+Flask
+gunicorn
