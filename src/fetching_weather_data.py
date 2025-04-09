@@ -1,24 +1,13 @@
 import requests
 import time
 import pandas as pd
+from meteostat import Stations
 
 # Your Meteostat API Key
-API_KEY = "51a1a1385amsh8a2062112967694p11c6c0jsncc63f327d026"
+API_KEY = "573595f6c3mshce92959d517ebcep1d0ba2jsn31025acc266e"
 
 # Base URL for Meteostat API
-BASE_URL = "https://meteostat.p.rapidapi.com/point/monthly"
-
-# List of countries with their latitude, longitude, and altitude (you can expand this list)
-countries = [
-    {"name": "Italy", "lat": 41.9028, "lon": 12.4964, "alt": 21},  # Rome
-    {"name": "France", "lat": 48.8566, "lon": 2.3522, "alt": 35},  # Paris
-    {"name": "Spain", "lat": 40.4168, "lon": -3.7038, "alt": 667},  # Madrid
-    # Add more countries here with their latitudes, longitudes, and altitudes
-]
-
-# Parameters (for the time range)
-start_year = 2016
-end_year = 2022
+BASE_URL = "https://meteostat.p.rapidapi.com/stations/hourly"
 
 # Headers for the API request
 headers = {
@@ -26,45 +15,78 @@ headers = {
     "x-rapidapi-key": API_KEY
 }
 
-# Fetch data year by year for each country
-for country in countries:
-    country_name = country["name"]
-    latitude = country["lat"]
-    longitude = country["lon"]
-    altitude = country["alt"]
-    
-    for year in range(start_year, end_year + 1):
-        start_date = f"{year}-01-01"
-        end_date = f"{year}-12-31"
-        
-        params = {
-            "lat": latitude,
-            "lon": longitude,
-            "alt": altitude,
-            "start": start_date,
-            "end": end_date
-        }
-        
-        print(f"Fetching data for {country_name} in {year}...")
-        
-        response = requests.get(BASE_URL, headers=headers, params=params)
-        
-        if response.status_code == 200:
-            data = response.json()
-            
-            # Check if the 'data' key exists in the response
-            if 'data' in data:
-                df = pd.DataFrame(data['data'])  # Convert the data to a pandas DataFrame
-                
-                # Save the DataFrame as a CSV file
-                df.to_csv(f"weather_data_{country_name}_{year}.csv", index=False)
-                print(f"Data for {country_name} in {year} saved as CSV successfully!")
-            else:
-                print(f"No data available for {country_name} in {year}")
-        else:
-            print(f"Failed to fetch data for {country_name} in {year}: {response.status_code}")
-        
-        # To avoid hitting API limits, wait for 2 seconds between requests
-        time.sleep(2)
+date_ranges = [
+    ("2016-01-01", "2016-01-31"),("2016-02-01", "2016-02-29"),("2016-03-01", "2016-03-31"),("2016-04-01", "2016-04-30"),("2016-05-01", "2016-05-31"),("2016-06-01", "2016-06-30"),("2016-07-01", "2016-07-31"),("2016-08-01", "2016-08-31"),("2016-09-01", "2016-09-30"),("2016-10-01", "2016-10-31"),("2016-11-01", "2016-11-30"),("2016-12-01", "2016-12-31"),
+    ("2017-01-01", "2017-01-31"),("2017-02-01", "2017-02-28"),("2017-03-01", "2017-03-31"),("2017-04-01", "2017-04-30"),("2017-05-01", "2017-05-31"),("2017-06-01", "2017-06-30"),("2017-07-01", "2017-07-31"),("2017-08-01", "2017-08-31"),("2017-09-01", "2017-09-30"),("2017-10-01", "2017-10-31"),("2017-11-01", "2017-11-30"),("2017-12-01", "2017-12-31"),
+    ("2018-01-01", "2018-01-31"),("2018-02-01", "2018-02-28"),("2018-03-01", "2018-03-31"),("2018-04-01", "2018-04-30"),("2018-05-01", "2018-05-31"),("2018-06-01", "2018-06-30"),("2018-07-01", "2018-07-31"),("2018-08-01", "2018-08-31"),("2018-09-01", "2018-09-30"),("2018-10-01", "2018-10-31"),("2018-11-01", "2018-11-30"),("2018-12-01", "2018-12-31"),
+    ("2019-01-01", "2019-01-31"),("2019-02-01", "2019-02-28"),("2019-03-01", "2019-03-31"),("2019-04-01", "2019-04-30"),("2019-05-01", "2019-05-31"),("2019-06-01", "2019-06-30"),("2019-07-01", "2019-07-31"),("2019-08-01", "2019-08-31"),("2019-09-01", "2019-09-30"),("2019-10-01", "2019-10-31"),("2019-11-01", "2019-11-30"),("2019-12-01", "2019-12-31"),
+    ("2020-01-01", "2020-01-31"),("2020-02-01", "2020-02-29"),("2020-03-01", "2020-03-31"),("2020-04-01", "2020-04-30"),("2020-05-01", "2020-05-31"),("2020-06-01", "2020-06-30"),("2020-07-01", "2020-07-31"),("2020-08-01", "2020-08-31"),("2020-09-01", "2020-09-30"),("2020-10-01", "2020-10-31"),("2020-11-01", "2020-11-30"),("2020-12-01", "2020-12-31"),
+    ("2021-01-01", "2021-01-31"),("2021-02-01", "2021-02-28"),("2021-03-01", "2021-03-31"),("2021-04-01", "2021-04-30"),("2021-05-01", "2021-05-31"),("2021-06-01", "2021-06-30"),("2021-07-01", "2021-07-31"),("2021-08-01", "2021-08-31"),("2021-09-01", "2021-09-30"),("2021-10-01", "2021-10-31"),("2021-11-01", "2021-11-30"),("2021-12-01", "2021-12-31"),
+    ("2022-01-01", "2022-01-31"),("2022-02-01", "2022-02-28"),("2022-03-01", "2022-03-31"),("2022-04-01", "2022-04-30"),("2022-05-01", "2022-05-31"),("2022-06-01", "2022-06-30"),("2022-07-01", "2022-07-31"),("2022-08-01", "2022-08-31"),("2022-09-01", "2022-09-30"),("2022-10-01", "2022-10-31"),("2022-11-01", "2022-11-30"),("2022-12-01", "2022-12-31")
+]
 
-print("All data fetched and saved as CSV successfully!")
+# Italy
+df = pd.DataFrame()
+for start_date, end_date in date_ranges:
+    
+    querystring = {"station": "16235", "start": start_date, "end": end_date}
+    
+    response = requests.get(BASE_URL, headers=headers, params=querystring)
+    
+    if response.status_code == 200:
+
+        data = response.json() 
+        if 'data' in data:
+            hourly_df = pd.DataFrame(data['data'])
+            df = pd.concat([df, hourly_df], ignore_index=True)
+    else:
+        print(f"Failed to fetch data for {start_date} to {end_date}")
+
+    time.sleep(2)
+
+df.to_csv("data/raw/weather_data_italy.csv", index=False)
+
+
+
+# Spain
+df = pd.DataFrame()
+for start_date, end_date in date_ranges:
+    
+    querystring = {"station": "08314", "start": start_date, "end": end_date}
+    
+    response = requests.get(BASE_URL, headers=headers, params=querystring)
+    
+    if response.status_code == 200:
+
+        data = response.json() 
+        if 'data' in data:
+            hourly_df = pd.DataFrame(data['data'])
+            df = pd.concat([df, hourly_df], ignore_index=True)
+    else:
+        print(f"Failed to fetch data for {start_date} to {end_date}")
+
+    time.sleep(2)
+
+df.to_csv("data/raw/weather_data_spain.csv", index=False)
+
+
+# France
+df = pd.DataFrame()
+for start_date, end_date in date_ranges:
+    
+    querystring = {"station": "07156", "start": start_date, "end": end_date}
+    
+    response = requests.get(BASE_URL, headers=headers, params=querystring)
+    
+    if response.status_code == 200:
+
+        data = response.json() 
+        if 'data' in data:
+            hourly_df = pd.DataFrame(data['data'])
+            df = pd.concat([df, hourly_df], ignore_index=True)
+    else:
+        print(f"Failed to fetch data for {start_date} to {end_date}")
+
+    time.sleep(2)
+
+df.to_csv("data/raw/weather_data_france.csv", index=False)
