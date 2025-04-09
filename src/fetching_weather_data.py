@@ -25,7 +25,7 @@ date_ranges = [
     ("2022-01-01", "2022-01-31"),("2022-02-01", "2022-02-28"),("2022-03-01", "2022-03-31"),("2022-04-01", "2022-04-30"),("2022-05-01", "2022-05-31"),("2022-06-01", "2022-06-30"),("2022-07-01", "2022-07-31"),("2022-08-01", "2022-08-31"),("2022-09-01", "2022-09-30"),("2022-10-01", "2022-10-31"),("2022-11-01", "2022-11-30"),("2022-12-01", "2022-12-31")
 ]
 
-# Italy
+# Fetching Data for Italy
 df = pd.DataFrame()
 for start_date, end_date in date_ranges:
     
@@ -48,7 +48,7 @@ df.to_csv("data/raw/weather_data_italy.csv", index=False)
 
 
 
-# Spain
+# Fetching Data for Spain
 df = pd.DataFrame()
 for start_date, end_date in date_ranges:
     
@@ -70,7 +70,7 @@ for start_date, end_date in date_ranges:
 df.to_csv("data/raw/weather_data_spain.csv", index=False)
 
 
-# France
+# Fetching Data for France
 df = pd.DataFrame()
 for start_date, end_date in date_ranges:
     
