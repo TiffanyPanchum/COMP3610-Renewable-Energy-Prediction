@@ -10,6 +10,7 @@ This project aims to predict renewable energy output (solar and wind) using hist
 - Marc-Simon Ramatali - 816028524
 - Rian Ramdin - 816029197
 
+
 ## Problem Statement
 Renewable energy sources like solar and wind are highly dependent on weather conditions, making their output unpredictable. This unpredictability poses challenges for energy grid management and integration into the power supply. Our project aims to develop a machine learning model to predict renewable energy output using historical energy production data, weather forecasts, and external factors like energy demand.
 
